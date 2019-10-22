@@ -19,8 +19,7 @@ double get_l_rect_intg_sequential(double l, double r, int n, double(*f)(double))
     return integral;
 }
 
-double get_midpoint_intg_sequential(double l, double r, int n, double(*f)(double))
-{
+double get_midpoint_intg_sequential(double l, double r, int n, double(*f)(double)) {
     if (n <= 0) throw - 1;
     double h = (r - l) / static_cast<double>(n);
     double integral = 0.0;
@@ -33,8 +32,7 @@ double get_midpoint_intg_sequential(double l, double r, int n, double(*f)(double
     return integral;
 }
 
-double get_midpoint_intg_parallel(double l, double r, int n, double(*f)(double))
-{
+double get_midpoint_intg_parallel(double l, double r, int n, double(*f)(double)) {
     if (n <= 0) throw - 1;
 
     int size, rank;
