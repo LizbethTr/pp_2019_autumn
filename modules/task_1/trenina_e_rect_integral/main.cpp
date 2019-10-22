@@ -56,7 +56,7 @@ TEST(Rect_Intg, Test_Midpoint_Sequential_Linear) {
     if (rank == 0) {
         double res = get_midpoint_intg_sequential(0.0, 5.0, 1000, linear);
         double exp = 12.5;
-        EXPECT_NEAR(res, exp, 5.2e-6); // 0.000005);
+        EXPECT_NEAR(res, exp, 5.2e-6);  // 0.000005);
     }
 }
 
