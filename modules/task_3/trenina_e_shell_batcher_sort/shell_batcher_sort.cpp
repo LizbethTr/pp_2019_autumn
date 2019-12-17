@@ -1,9 +1,8 @@
 // Copyright 2019 Trenina Elizaveta
+#include <mpi.h>
 
-#include<iostream>
-
-//#include <mpi.h>
 #include <algorithm>
+#include <utility>
 #include <random>
 #include <vector>
 #include <ctime>
@@ -27,136 +26,136 @@ std::vector<int> GetRandomVector(int n) {
 }
 
 std::vector<int> Shell(std::vector<int> arr) {
-
     int n = arr.size();
     for (int incr = n / 2; incr > 0; incr/=2) {
             for (int i = incr; i < n; i++) {
                 int j = i - incr;
-                while (j >= 0) {
+                while (j >= 0)
                     if (arr[j] > arr[j + incr]) {
                         std::swap(arr[j], arr[j + incr]);
                         j = j - incr;
-                    }
-                    else j = -1;
-                }
-                    
+                    } else j = -1;
             }
-        }    return arr;
+        }
+
+    return arr;
 }
 
 
-//void batcher(int proc_num) {
-//	std::vector<int> procsVec(proc_num);
-//
-//	for (int i = 0; i < proc_num; i++) {
-//		procsVec[i] = i;
-//	}
-//	build_Network(procsVec);
-//
-//	std::cout << "Batcher(size)\n";
-//}
-//
-//void build_Network(std::vector<int> procsVec) {
-//	int size = procsVec.size();
-//
-//	if (size == 1) return;
-//	
-//	int sizeUp = size / 2;
-//	int sizeDown = size - sizeUp;
-//
-//	std::vector<int> UpProcVec(sizeUp);
-//	std::vector<int> DownProcVec(sizeDown);
-//
-//	std::copy(procsVec.begin(), procsVec.begin() + sizeUp, UpProcVec.begin());
-//	std::copy(procsVec.begin() + sizeUp, procsVec.end(), DownProcVec.begin());
-//
-//	build_Network(UpProcVec);
-//	build_Network(DownProcVec);
-//
-//	build_Connection(UpProcVec, DownProcVec);
-//
-//	std::cout << "UpProcVec=";
-//	for (int i = 0; i < UpProcVec.size(); i++) std::cout << UpProcVec[i];
-//	std::cout << "\n" << "DownProcVec=";
-//	for (int i = 0; i < DownProcVec.size(); i++) std::cout << DownProcVec[i];
-//	std::cout << "\n";
-//}
-//
-//
-//
-//void build_Connection(std::vector<int>UpProcVec, std::vector<int>DownProcVec) {
-//
-//
-//	int sizeUp = UpProcVec.size();
-//	int sizeDown = DownProcVec.size();
-//	int countProc = sizeUp + sizeDown;
-//
-//	if (countProc == 1) { //?
-//		std::cout << "countProc=1\n";
-//		return;
-//	}
-//	if (countProc == 2) {
-//		std::cout << UpProcVec[0] << " . " << DownProcVec[0] << std::endl;
-//		comps.push_back(pair{ UpProcVec[0], DownProcVec[0] });
-//		return;
-//	}
-//
-//	std::vector<int> upProcVecOdd;
-//	std::vector<int> upProcVecEven;
-//	std::vector<int> downProcVecOdd;
-//	std::vector<int> downProcVecEven;
-//
-//	std::vector<int> procRes(countProc);
-//
-//	for (int i = 0; i < sizeUp; ++i) {
-//		if (i % 2) {
-//			upProcVecEven.push_back(UpProcVec[i]);
-//		}
-//		else {
-//			upProcVecOdd.push_back(UpProcVec[i]);
-//		}
-//	}
-//
-//	for (int i = 0; i < sizeDown; ++i) {
-//		if (i % 2) {
-//			downProcVecEven.push_back(DownProcVec[i]);
-//		}
-//		else {
-//			downProcVecOdd.push_back(DownProcVec[i]);
-//		}
-//	}
-//
-//	build_Connection(upProcVecOdd, downProcVecOdd);
-//	build_Connection(upProcVecEven, downProcVecEven);
-//
-//	std::merge(UpProcVec.begin(), UpProcVec.end(),
-//		DownProcVec.begin(), DownProcVec.end(),
-//		procRes.begin());
-//
-//	for (int j = 0; j < countProc; j++)
-//		std::cout << "procRes" << procRes[j] << "\n";
-//
-//
-//	for (int i = 1; i + 1 < countProc; i += 2) {
-//		std::cout << procRes[i] << "  " << procRes[i + 1] << std::endl;
-//		comps.push_back(pair{ procRes[i], procRes[i + 1] });
-//		std::cout << "PushBack\n";
-//	}
-//
-//
-//	std::cout << "BuildConnection\n"; 
-//
-//}
+void batcher(int proc_num) {
+    std::vector<int> procsVec(proc_num);
 
-void batcher(int countOfProc) {
-    std::vector<int> prcsVec(countOfProc);
+    for (int i = 0; i < proc_num; i++) {
+        procsVec[i] = i;
+    }
+    build_Network(procsVec);
 
-    for (int i = 0; i < countOfProc; ++i) {
-        prcsVec[i] = i;
+    // std::cout << "Batcher(size)_end\n";
+}
+
+void build_Network(std::vector<int> procsVec) {
+    int size = procsVec.size();
+
+    if (size == 1) return;
+
+    int sizeUp = size / 2;
+    int sizeDown = size - sizeUp;
+
+    std::vector<int> UpProcVec(sizeUp);
+    std::vector<int> DownProcVec(sizeDown);
+
+    std::copy(procsVec.begin(), procsVec.begin() + sizeUp, UpProcVec.begin());
+    std::copy(procsVec.begin() + sizeUp, procsVec.end(), DownProcVec.begin());
+
+    // std::cout << "UpProcVec=";
+    // for (int i = 0; i < UpProcVec.size(); i++) std::cout << UpProcVec[i];
+    // std::cout << "\n" << "DownProcVec=";
+    // for (int i = 0; i < DownProcVec.size(); i++) std::cout << DownProcVec[i];
+    // std::cout << "\n";
+
+    build_Network(UpProcVec);
+    build_Network(DownProcVec);
+
+    build_Connection(UpProcVec, DownProcVec);
+
+    // std::cout << "UpProcVec=";
+    // for (int i = 0; i < UpProcVec.size(); i++) std::cout << UpProcVec[i];
+    // std::cout << "\n" << "DownProcVec=";
+    // for (int i = 0; i < DownProcVec.size(); i++) std::cout << DownProcVec[i];
+    // std::cout << "\n";
+}
+
+
+
+void build_Connection(std::vector<int>UpProcVec, std::vector<int>DownProcVec) {
+    int sizeUp = UpProcVec.size();
+    int sizeDown = DownProcVec.size();
+    int countProc = sizeUp + sizeDown;
+
+    if (countProc == 1) {
+        // std::cout << "countProc=1\n";
+        return;
+    }
+    if (countProc == 2) {
+        // std::cout << UpProcVec[0] << " . " << DownProcVec[0] << std::endl;
+        comps.push_back(pair{ UpProcVec[0], DownProcVec[0] });
+        return;
     }
 
-    buildNetwork(prcsVec);
+    std::vector<int> upProcVecOdd;
+    std::vector<int> upProcVecEven;
+    std::vector<int> downProcVecOdd;
+    std::vector<int> downProcVecEven;
+
+    std::vector<int> procRes(countProc);
+
+    for (int i = 0; i < sizeUp; i++) {
+        if (i % 2) {
+            upProcVecEven.push_back(UpProcVec[i]);
+        } else {
+            upProcVecOdd.push_back(UpProcVec[i]);
+        }
+    }
+
+    for (int i = 0; i < sizeDown; i++) {
+        if (i % 2) {
+            downProcVecEven.push_back(DownProcVec[i]);
+        } else {
+            downProcVecOdd.push_back(DownProcVec[i]);
+        }
+    }
+
+    build_Connection(upProcVecOdd, downProcVecOdd);
+    build_Connection(upProcVecEven, downProcVecEven);
+
+    std::merge(UpProcVec.begin(), UpProcVec.end(),
+        DownProcVec.begin(), DownProcVec.end(),
+        procRes.begin());
+
+    for (int j = 0; j < countProc; j++)
+        // std::cout << "procRes" << procRes[j] << "\n";
+
+
+    for (int i = 1; i + 1 < countProc; i += 2) {
+        // std::cout << procRes[i] << "  " << procRes[i + 1] << std::endl;
+
+        comps.push_back(pair{ procRes[i], procRes[i + 1] });
+
+        // std::cout << "PushBack\n";
+    }
+
+    // std::cout << "BuildConnection\n";
 }
+
+// void batcher(int countOfProc) {
+//    std::vector<int> prcsVec(countOfProc);
+//
+//    for (int i = 0; i < countOfProc; ++i) {
+//        prcsVec[i] = i;
+//    }
+//
+//    buildNetwork(prcsVec);
+// }
 
 void buildNetwork(std::vector<int> prcsVec) {
     int size = prcsVec.size();
@@ -182,8 +181,7 @@ void buildConnection(std::vector<int> upPrcsVec,
 
     if (countPrcs == 1) {
         return;
-    }
-    else if (countPrcs == 2) {
+    } else if (countPrcs == 2) {
         comps.push_back(pair{ upPrcsVec[0], downPrcsVec[0] });
         return;
     }
@@ -201,8 +199,7 @@ void buildConnection(std::vector<int> upPrcsVec,
     for (int i = 0; i < sizeUp; ++i) {
         if (i % 2) {
             upPrcsVecEven.push_back(upPrcsVec[i]);
-        }
-        else {
+        } else {
             upPrcsVecOdd.push_back(upPrcsVec[i]);
         }
     }
@@ -210,8 +207,7 @@ void buildConnection(std::vector<int> upPrcsVec,
     for (int i = 0; i < sizeDown; ++i) {
         if (i % 2) {
             downPrcsVecEven.push_back(downPrcsVec[i]);
-        }
-        else {
+        } else {
             downPrcsVecOdd.push_back(downPrcsVec[i]);
         }
     }
@@ -230,7 +226,6 @@ void buildConnection(std::vector<int> upPrcsVec,
 
 
 std::vector<int> Shell_Batcher(std::vector<int> globalVec) {
-
     int globalSize = globalVec.size();
 
     int size, rank;
@@ -256,12 +251,12 @@ std::vector<int> Shell_Batcher(std::vector<int> globalVec) {
 
     batcher(size);
 
-    std::cout << "end_batcher\n";
+    // std::cout << "end_batcher\n";
 
     std::vector<int> localVec(localSize);
     std::vector<int> recVec(localSize);
     std::vector<int> tmpVec(localSize);
-        std::cout << "Scatter\n";
+    //    std::cout << "Scatter\n";
     MPI_Scatter(&globalVec[0], localSize, MPI_INT,
         &localVec[0], localSize, MPI_INT, 0,
         MPI_COMM_WORLD);
@@ -288,15 +283,13 @@ std::vector<int> Shell_Batcher(std::vector<int> globalVec) {
                 if (local < rec) {
                     tmpVec[tmpIndex] = local;
                     ++locIndex;
-                }
-                else {
+                } else {
                     tmpVec[tmpIndex] = rec;
                     ++recIndex;
                 }
             }
             std::swap(localVec, tmpVec);
-        }
-        else if (rank == comp.rank2) {
+        } else if (rank == comp.rank2) {
             MPI_Recv(&recVec[0], localSize, MPI_INT,
                 comp.rank1, 0, MPI_COMM_WORLD, &st);
             MPI_Send(&localVec[0], localSize, MPI_INT,
@@ -310,8 +303,7 @@ std::vector<int> Shell_Batcher(std::vector<int> globalVec) {
                 if (local > rec) {
                     tmpVec[tmpIndex] = local;
                     --locIndex;
-                }
-                else {
+                } else {
                     tmpVec[tmpIndex] = rec;
                     --recIndex;
                 }
@@ -332,9 +324,4 @@ std::vector<int> Shell_Batcher(std::vector<int> globalVec) {
     return globalVec;
 }
 
-
-
-
-
-//
 
