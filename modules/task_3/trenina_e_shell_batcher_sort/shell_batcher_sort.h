@@ -10,17 +10,9 @@ typedef struct {
 } pair;
 
 
-
-// void batcher(int proc_num);
-void build_Network(std::vector<int> procsVec);
-void build_Connection(std::vector<int>UpProcVec, std::vector<int>DownProcVec);
-
-void batcher(int proc_num);
-
 std::vector<int> GetRandomVector(int n);
 
 std::vector<int> Shell(std::vector<int> arr);
-
 
 std::vector<int> Shell_Batcher(std::vector<int> arr);
 

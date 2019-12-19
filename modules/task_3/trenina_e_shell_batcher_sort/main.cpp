@@ -6,107 +6,108 @@
 #include <vector>
 #include "./shell_batcher_sort.h"
 
-TEST(Shell, Test_Shell_Sort_size2) {
+TEST(Shell, Test_Shell_Sort_Size_1) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
-        std::vector<int> exp = { 3, 6 };
-        std::vector<int> t = { 6, 3};
-        std::vector<int> res(2, -1);
-
-        res = Shell(t);
-
+        std::vector<int> exp(1, 0);
+        std::vector<int> res = Shell(exp);
         EXPECT_EQ(exp, res);
     }
 }
 
-TEST(Shell, Test_Shell_Sort) {
+TEST(Shell, Test_Shell_Sort_Size_100) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
-        std::vector<int> exp = { 1, 2, 3, 4, 5, 6 };
-        std::vector<int> t = { 6, 3, 4, 2, 5, 1 };
-        std::vector<int> res(6, 0);
-
-        res = Shell(t);
-
-        EXPECT_EQ(exp, res);
-    }
-}
-
-TEST(Shell, Test_Shell_Sort_Odd) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if (rank == 0) {
-        std::vector<int> exp = { 1, 2, 3, 4, 5, 6, 7};
-        std::vector<int> t = { 6, 3, 4, 2, 5, 1, 7};
-        std::vector<int> res(7, 0);
-
-        res = Shell(t);
-
-        EXPECT_EQ(exp, res);
-    }
-}
-
-TEST(Shell, Test_Shell_Sort_Random_Vector) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if (rank == 0) {
-        std::vector<int> t = GetRandomVector(7);
+        int n = 100;
+        std::vector<int> t = GetRandomVector(n);
         std::vector<int> exp(t);
+        std::vector<int> res = Shell(t);
         std::sort(exp.begin(), exp.end());
-
-        std::vector<int> res(t);
-
-        res = Shell(t);
-
         EXPECT_EQ(exp, res);
     }
 }
 
-
-
-
-TEST(Shell, Test_Batcher) {
-    int rank, size;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    if (rank == 0) {
-        batcher(size);
-
-        EXPECT_EQ(0, 0);
-    }
-}
-TEST(Shell, Test_Shell_Batcher_Sort) {
+TEST(Shell, Test_Shell_Sort_Size_101) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if (rank == 0) {
-        std::vector<int> exp = { 1, 2, 3, 4, 5, 6 };
-        std::vector<int> t = { 6, 3, 4, 2, 5, 1 };
-        std::vector<int> res(6, 0);
-
-        res = Shell_Batcher(t);
-
+        int n = 101;
+        std::vector<int> t = GetRandomVector(n);
+        std::vector<int> exp(t);
+        std::vector<int> res = Shell(t);
+        std::sort(exp.begin(), exp.end());
         EXPECT_EQ(exp, res);
     }
 }
 
-// TEST(Shell, Test_Shell_Batcher_Sort_Odd) {
-//
-//    int rank;
-//    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-//    if (rank == 0) {
-//        std::vector<int> exp = { 1, 2, 3, 4, 5, 6, 7 };
-//        std::vector<int> t = { 6, 3, 4, 2, 5, 1, 7 };
-//        std::vector<int> res(7, 0);
-//
-//        res = Shell_Batcher(t);
-//
-//        EXPECT_NE(exp, res);
-//    }
-// }
+
+TEST(Shell, Test_Shell_Batcher_Sort_Size_6) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int n = 6;
+    std::vector<int> t = GetRandomVector(n);
+    std::vector<int> exp(t);
+    std::vector<int> res = Shell_Batcher(t);
+    if (rank == 0) {
+        exp = Shell(t);
+        EXPECT_EQ(exp, res);
+    }
+}
+
+TEST(Shell, Test_Shell_Batcher_Sort_Size_7) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int n = 7;
+    std::vector<int> t = GetRandomVector(n);
+    std::vector<int> exp(t);
+    std::vector<int> res = Shell_Batcher(t);
+    if (rank == 0) {
+        exp = Shell(exp);
+        EXPECT_EQ(exp, res);
+    }
+}
 
 
+TEST(Shell, Test_Shell_Batcher_Sort_Size_100) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int n = 100;
+    std::vector<int> t = GetRandomVector(n);
+    std::vector<int> exp(t);
+    std::vector<int> res = Shell_Batcher(t);
+    if (rank == 0) {
+        exp = Shell(exp);
+        EXPECT_EQ(exp, res);
+    }
+}
+
+TEST(Shell, Test_Shell_Batcher_Sort_Size_101) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int n = 101;
+    std::vector<int> t = GetRandomVector(n);
+    std::vector<int> exp(t);
+    std::vector<int> res = Shell_Batcher(t);
+    if (rank == 0) {
+        exp = Shell(exp);
+        EXPECT_EQ(exp, res);
+    }
+}
+
+TEST(Shell, Test_Shell_Batcher_Sort_Size_1000) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int n = 100;
+    std::vector<int> t = GetRandomVector(n);
+    std::vector<int> exp(t);
+    std::vector<int> res = Shell_Batcher(t);
+    if (rank == 0) {
+        exp = Shell(exp);
+        EXPECT_EQ(exp, res);
+    }
+}
 
 
 
