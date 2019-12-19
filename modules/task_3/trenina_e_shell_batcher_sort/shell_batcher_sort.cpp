@@ -110,7 +110,7 @@ void build_Connection(std::vector<int>UpProcVec, std::vector<int>DownProcVec) {
         DownProcVec.begin(), DownProcVec.end(),
         procRes.begin());
 
-    for (size_t l = 1; l + 1 < countProc; l += 2)
+    for (int l = 1; l + 1 < countProc; l += 2)
         comparators.push_back(pair{ procRes[l], procRes[l + 1] });
 }
 
